@@ -21,3 +21,4 @@ function MyStack() {
     </NavigationContainer>
   );
 }
+export default MyStack;

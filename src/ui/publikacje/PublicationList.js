@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import PublicationCard from "./PublicationCard";
-
+import { getMagazines } from "../../data/MagazineRepository";
 const styles = StyleSheet.create({
   list: {
     flex: 1,
@@ -12,24 +12,22 @@ const styles = StyleSheet.create({
 
 class PublicationList extends Component {
   state = {
-    events: [],
+    currentPage: 1,
+    magazines: [],
   };
 
-  componentDidMount() {
-    setInterval(() => {
-      this.setState({
-        events: this.state.events.map((evt) => ({
-          ...evt,
-          timer: Date.now(),
-        })),
-      });
-    }, 1000);
+  async componentDidMount() {
+    try {
+      await console.log("Before fetched");
+      const response = await getMagazines((page = this.state.currentPage));
+      await console.log("Fetched", response.magazines.length);
 
-    const events = require("../../data/db.json").events.map((e) => ({
-      ...e,
-      date: new Date(e.date),
-    }));
-    this.setState({ events });
+      this.setState({
+        magazines: response.magazines,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   handleAddEvent = () => {
@@ -39,11 +37,14 @@ class PublicationList extends Component {
   render() {
     return (
       <FlatList
-        key="flatlist"
-        data={this.state.events}
+        data={this.state.magazines}
         style={styles.list}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item, separators }) => <PublicationCard event={item} />}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item, separators }) => (
+          <PublicationCard
+            event={{ title: item.Title1, points: item.Points[0].Value }}
+          />
+        )}
         onPress={this.handleAddEvent}
       />
     );
