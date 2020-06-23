@@ -4,9 +4,9 @@ const limit = 10;
 
 export async function getMagazines(
   page,
-  title = undefined,
-  minPoints = undefined,
-  maxPoints = undefined
+  title = "",
+  minPoints = 0,
+  maxPoints = 200
 ) {
   try {
     const params = buildParams({ page, title, minPoints, maxPoints });

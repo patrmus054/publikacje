@@ -20,6 +20,9 @@ class PublicationList extends Component {
     magazines: [],
     isLoading: false,
     hasNext: true,
+    title: this.props.route.params.title,
+    minPoints: this.props.route.params.minPoints,
+    maxPoints: this.props.route.params.maxPoints,
   };
 
   async componentDidMount() {
@@ -28,7 +31,12 @@ class PublicationList extends Component {
 
   async fetchMagazines() {
     try {
-      const response = await getMagazines(this.state.currentPage);
+      const response = await getMagazines(
+        this.state.currentPage,
+        (title = this.state.title),
+        (minPoints = this.state.minPoints),
+        (maxPoints = this.state.maxPoints)
+      );
 
       this.setState({
         magazines: [...this.state.magazines, ...response.magazines],
