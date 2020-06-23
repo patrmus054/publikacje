@@ -58,7 +58,9 @@ function MyStack() {
                 </View>
               ),
               headerStyle: {
-                backgroundColor: "#53D3CC",
+                backgroundColor: isDark
+                  ? MyDarkTheme.colors.card
+                  : MyTheme.colors.card,
               },
               headerTintColor: "#fff",
               title: "Magazine List",
@@ -78,7 +80,9 @@ function MyStack() {
                 </View>
               ),
               headerStyle: {
-                backgroundColor: "#53D3CC",
+                backgroundColor: isDark
+                  ? MyDarkTheme.colors.card
+                  : MyTheme.colors.card,
               },
               headerTintColor: "#fff",
               title: "Details",
@@ -89,7 +93,9 @@ function MyStack() {
             component={FilterView}
             options={({ navigation }) => ({
               headerStyle: {
-                backgroundColor: "#53D3CC",
+                backgroundColor: isDark
+                  ? MyDarkTheme.colors.card
+                  : MyTheme.colors.card,
               },
               headerTintColor: "#fff",
               title: "Filters",

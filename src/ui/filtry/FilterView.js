@@ -65,65 +65,58 @@ class FilterView extends Component {
       <ScrollView>
         <View style={styles.container}>
           <TextInput
-            placeholder="Podaj tytuł czasopisma"
+            placeholder="Title"
+            placeholderTextColor={this.state.myTheme.text}
             value={this.state.title}
-            style={{ height: 50, width: 300 }}
+            style={{ height: 50, width: 300, color: this.state.myTheme.text }}
             onChangeText={(text) => this.setState({ title: text })}
             underlineColorAndroid={this.state.myTheme.text}
           />
           <View>
             <View style={styles.pickerContainer}>
-              <Text style={{ color: this.state.myTheme.text }}>Min Points</Text>
+              <Text style={{ color: this.state.myTheme.text }}>
+                Min Points:
+              </Text>
 
-              <Picker
+              <TextInput
+                placeholder="Min Points"
+                placeholderTextColor={this.state.myTheme.text}
+                value={this.state.minPoints}
                 style={{
-                  color: this.state.myTheme.text,
                   height: 50,
                   width: 100,
-                  opacity: this.state.pickerOpacity,
+                  marginLeft: 10,
+                  color: this.state.myTheme.text,
                 }}
-                itemStyle={{ color: this.state.myTheme.text }}
-                selectedValue={this.state.minPoints}
-                onValueChange={(itemValue) =>
-                  this.setState({ minPoints: itemValue })
-                }
-              >
-                <Picker.Item label="0" value={0} />
-                <Picker.Item label="20" value={20} />
-                <Picker.Item label="40" value={40} />
-                <Picker.Item label="70" value={70} />
-                <Picker.Item label="100" value={100} />
-                <Picker.Item label="140" value={140} />
-                <Picker.Item label="200" value={200} />
-              </Picker>
+                keyboardType="numeric"
+                onChangeText={(text) => this.setState({ minPoints: text })}
+                underlineColorAndroid={this.state.myTheme.text}
+              />
             </View>
             <View style={styles.pickerContainer}>
-              <Text style={{ color: this.state.myTheme.text }}>Max Points</Text>
+              <Text style={{ color: this.state.myTheme.text }}>
+                Max Points:
+              </Text>
 
-              <Picker
+              <TextInput
+                placeholder="Max Points"
+                value={this.state.maxPoints}
+                placeholderTextColor={this.state.myTheme.text}
+                keyboardType="numeric"
                 style={{
-                  color: this.state.myTheme.text,
                   height: 50,
                   width: 100,
-                  opacity: this.state.pickerOpacity,
+                  marginLeft: 10,
+                  color: this.state.myTheme.text,
                 }}
-                selectedValue={this.state.maxPoints}
-                onValueChange={(itemValue) =>
-                  this.setState({ maxPoints: itemValue })
-                }
-              >
-                <Picker.Item label="20" value={20} />
-                <Picker.Item label="40" value={40} />
-                <Picker.Item label="70" value={70} />
-                <Picker.Item label="100" value={100} />
-                <Picker.Item label="140" value={140} />
-                <Picker.Item label="200" value={200} />
-              </Picker>
+                onChangeText={(text) => this.setState({ maxPoints: text })}
+                underlineColorAndroid={this.state.myTheme.text}
+              />
             </View>
           </View>
           <Button
             color="#09A693"
-            title="Szukaj"
+            title="Search"
             onPress={() => this.searchMagazines()}
           />
         </View>
