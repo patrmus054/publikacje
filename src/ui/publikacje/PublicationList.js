@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import PublicationCard from "./PublicationCard";
 import { getMagazines } from "../../data/MagazineRepository";
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    paddingTop: 20,
-    backgroundColor: "#F3F3F3",
+    backgroundColor: "#fff",
   },
 });
 
@@ -18,9 +17,7 @@ class PublicationList extends Component {
 
   async componentDidMount() {
     try {
-      await console.log("Before fetched");
       const response = await getMagazines((page = this.state.currentPage));
-      await console.log("Fetched", response.magazines.length);
 
       this.setState({
         magazines: response.magazines,
@@ -31,7 +28,7 @@ class PublicationList extends Component {
   }
 
   handleAddEvent = () => {
-    this.props.navigation.navigate("form");
+    this.props.navigation.navigate("Details");
   };
 
   render() {
@@ -42,13 +39,27 @@ class PublicationList extends Component {
         keyExtractor={(item) => item._id}
         renderItem={({ item, separators }) => (
           <PublicationCard
-            event={{ title: item.Title1, points: item.Points[0].Value }}
+            magazine={{
+              id: item._id,
+              title: item.Title1,
+              points: item.Points[0].Value.toString(),
+              onSelect: this.handleAddEvent,
+            }}
           />
         )}
-        onPress={this.handleAddEvent}
+        ItemSeparatorComponent={this.renderSeparator}
       />
     );
   }
+  renderSeparator = () => (
+    <View
+      style={{
+        backgroundColor: "#4B4949",
+        opacity: 0.29,
+        height: 1,
+      }}
+    />
+  );
 }
 
 export default PublicationList;

@@ -10,7 +10,7 @@ export async function getMagazines(
 ) {
   try {
     const params = buildParams({ page, title, minPoints, maxPoints });
-    console.log(params);
+
     const apiResponse = await instance.get("/magazines/", {
       params: {
         ...params,

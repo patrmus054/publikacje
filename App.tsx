@@ -16,7 +16,11 @@ function MyStack() {
           component={PublicationList}
           options={{ title: "Welcome" }}
         />
-        <Stack.Screen name="form" component={DetailsForm} />
+        <Stack.Screen
+          name="Details"
+          component={DetailsForm}
+          options={{ title: "Details" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

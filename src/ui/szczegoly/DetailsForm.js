@@ -11,11 +11,11 @@ class DetailsForm extends Component {
   };
   render() {
     return (
-      <view>
+      <View>
         <TouchableHighlight onPress={this.handleAddPress}>
           <Text>Add</Text>
         </TouchableHighlight>
-      </view>
+      </View>
     );
   }
 }
