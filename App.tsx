@@ -57,15 +57,6 @@ function MyStack() {
           name="FilterView"
           component={FilterView}
           options={({ navigation }) => ({
-            headerRight: () => (
-              <View>
-                <SearchButton
-                  onClick={() => {
-                    navigation.navigate("FilterView");
-                  }}
-                />
-              </View>
-            ),
             headerStyle: {
               backgroundColor: "#53D3CC",
             },
