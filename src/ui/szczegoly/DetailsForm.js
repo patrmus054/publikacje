@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { getMagazineById } from "../../data/MagazineRepository";
+import { useTheme } from "@react-navigation/native";
 class DetailsForm extends Component {
   constructor(props) {
     super(props);
@@ -29,30 +30,60 @@ class DetailsForm extends Component {
     ) : (
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.headerText}>Title 1</Text>
-          <Text style={styles.descriptionText}>
+          <Text style={{ ...styles.headerText, color: this.props.theme.text }}>
+            Title 1
+          </Text>
+          <Text
+            style={{ ...styles.descriptionText, color: this.props.theme.text }}
+          >
             {this.state.magazine.Title1}
           </Text>
-          <Text style={styles.headerText}>Title 2</Text>
-          <Text style={styles.descriptionText}>
+          <Text style={{ ...styles.headerText, color: this.props.theme.text }}>
+            Title 2
+          </Text>
+          <Text
+            style={{ ...styles.descriptionText, color: this.props.theme.text }}
+          >
             {this.state.magazine.Title2}
           </Text>
-          <Text style={styles.headerText}>ISSN</Text>
-          <Text style={styles.descriptionText}>{this.state.magazine.issn}</Text>
-          <Text style={styles.headerText}>E-ISSN</Text>
-          <Text style={styles.descriptionText}>
+          <Text style={{ ...styles.headerText, color: this.props.theme.text }}>
+            ISSN
+          </Text>
+          <Text
+            style={{ ...styles.descriptionText, color: this.props.theme.text }}
+          >
+            {this.state.magazine.issn}
+          </Text>
+          <Text style={{ ...styles.headerText, color: this.props.theme.text }}>
+            E-ISSN
+          </Text>
+          <Text
+            style={{ ...styles.descriptionText, color: this.props.theme.text }}
+          >
             {this.state.magazine.e_issn}
           </Text>
-          <Text style={styles.headerText}>ISSN 2</Text>
-          <Text style={styles.descriptionText}>
+          <Text style={{ ...styles.headerText, color: this.props.theme.text }}>
+            ISSN 2
+          </Text>
+          <Text
+            style={{ ...styles.descriptionText, color: this.props.theme.text }}
+          >
             {this.state.magazine.issn2}
           </Text>
-          <Text style={styles.headerText}>E-ISSN 2</Text>
-          <Text style={styles.descriptionText}>
+          <Text style={{ ...styles.headerText, color: this.props.theme.text }}>
+            E-ISSN 2
+          </Text>
+          <Text
+            style={{ ...styles.descriptionText, color: this.props.theme.text }}
+          >
             {this.state.magazine.e_issn2}
           </Text>
-          <Text style={styles.headerText}>Categories</Text>
-          <Text style={styles.descriptionText}>
+          <Text style={{ ...styles.headerText, color: this.props.theme.text }}>
+            Categories
+          </Text>
+          <Text
+            style={{ ...styles.descriptionText, color: this.props.theme.text }}
+          >
             {this.state.magazine.Categories.join(",")}
           </Text>
         </View>
@@ -81,4 +112,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailsForm;
+export default (props) => {
+  const { colors } = useTheme();
+  return <DetailsForm {...props} theme={colors} />;
+};

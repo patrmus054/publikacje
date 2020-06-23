@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import PublicationCard from "./PublicationCard";
 import { getMagazines } from "../../data/MagazineRepository";
+import { useTheme } from "@react-navigation/native";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 const styles = StyleSheet.create({
   list: {
     flex: 1,
@@ -25,20 +27,27 @@ class PublicationList extends Component {
       title: props.route.params.title,
       minPoints: props.route.params.minPoints,
       maxPoints: props.route.params.maxPoints,
+      myTheme: props.theme,
     };
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      page: 1,
+      currentPage: 1,
       magazines: [],
       title: nextProps.route.params.title,
       minPoints: nextProps.route.params.minPoints,
       maxPoints: nextProps.route.params.maxPoints,
+      isLoading: false,
     });
-    this.handleLoadMore();
+    console.log(this.state.currentPage);
+    this.componentDidMount();
   }
   async componentDidMount() {
-    this.setState({ isLoading: true, magazines: [] }, this.fetchMagazines);
+    console.log("D");
+    this.setState(
+      { isLoading: true, magazines: [], currentPage: 1 },
+      this.fetchMagazines
+    );
   }
 
   async fetchMagazines() {
@@ -60,7 +69,12 @@ class PublicationList extends Component {
       console.error(error);
     }
   }
-
+  c = () => {
+    this.setState({
+      currentPage: 1,
+      magazines: [],
+    });
+  };
   handleAddEvent = (id) => {
     this.props.navigation.navigate("Details", {
       id: id,
@@ -92,7 +106,10 @@ class PublicationList extends Component {
     return (
       <FlatList
         data={this.state.magazines}
-        style={styles.list}
+        style={{
+          ...styles.list,
+          backgroundColor: this.state.myTheme.backgroundColor,
+        }}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, separators }) => (
           <PublicationCard
@@ -113,4 +130,8 @@ class PublicationList extends Component {
   }
 }
 
-export default PublicationList;
+export default (props) => {
+  const { colors } = useTheme();
+  console.log(colors);
+  return <PublicationList {...props} theme={colors} />;
+};

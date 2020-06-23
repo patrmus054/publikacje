@@ -3,7 +3,12 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 //import { Picker } from "@react-native-community/picker";
 import { Platform } from "react-native";
 import { Picker } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  TouchableOpacity,
+  ScrollView,
+  TouchableHighlight,
+} from "react-native-gesture-handler";
+import { useTheme } from "@react-navigation/native";
 class FilterView extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +18,7 @@ class FilterView extends Component {
       maxPoints: 200,
       pickerOpacity: 0,
       opacityOfOtherItems: 1,
+      myTheme: props.theme,
     };
   }
   checkIfIOS() {
@@ -56,62 +62,72 @@ class FilterView extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <TextInput
-          placeholder="Podaj tytuł czasopisma"
-          value={this.state.title}
-          style={{ height: 50, width: 300 }}
-          onChangeText={(text) => this.setState({ title: text })}
-          underlineColorAndroid="#000"
-        />
-        <View>
-          <View style={styles.pickerContainer}>
-            <Text>Min Points</Text>
+      <ScrollView>
+        <View style={styles.container}>
+          <TextInput
+            placeholder="Podaj tytuł czasopisma"
+            value={this.state.title}
+            style={{ height: 50, width: 300 }}
+            onChangeText={(text) => this.setState({ title: text })}
+            underlineColorAndroid={this.state.myTheme.text}
+          />
+          <View>
+            <View style={styles.pickerContainer}>
+              <Text style={{ color: this.state.myTheme.text }}>Min Points</Text>
 
-            <Picker
-              style={{
-                height: 50,
-                width: 100,
-                opacity: this.state.pickerOpacity,
-              }}
-              selectedValue={this.state.minPoints}
-              onValueChange={(itemValue) =>
-                this.setState({ minPoints: itemValue })
-              }
-            >
-              <Picker.Item label="0" value={0} />
-              <Picker.Item label="20" value={20} />
-              <Picker.Item label="40" value={40} />
-              <Picker.Item label="70" value={70} />
-              <Picker.Item label="100" value={100} />
-              <Picker.Item label="140" value={140} />
-              <Picker.Item label="200" value={200} />
-            </Picker>
+              <Picker
+                style={{
+                  color: this.state.myTheme.text,
+                  height: 50,
+                  width: 100,
+                  opacity: this.state.pickerOpacity,
+                }}
+                itemStyle={{ color: this.state.myTheme.text }}
+                selectedValue={this.state.minPoints}
+                onValueChange={(itemValue) =>
+                  this.setState({ minPoints: itemValue })
+                }
+              >
+                <Picker.Item label="0" value={0} />
+                <Picker.Item label="20" value={20} />
+                <Picker.Item label="40" value={40} />
+                <Picker.Item label="70" value={70} />
+                <Picker.Item label="100" value={100} />
+                <Picker.Item label="140" value={140} />
+                <Picker.Item label="200" value={200} />
+              </Picker>
+            </View>
+            <View style={styles.pickerContainer}>
+              <Text style={{ color: this.state.myTheme.text }}>Max Points</Text>
+
+              <Picker
+                style={{
+                  color: this.state.myTheme.text,
+                  height: 50,
+                  width: 100,
+                  opacity: this.state.pickerOpacity,
+                }}
+                selectedValue={this.state.maxPoints}
+                onValueChange={(itemValue) =>
+                  this.setState({ maxPoints: itemValue })
+                }
+              >
+                <Picker.Item label="20" value={20} />
+                <Picker.Item label="40" value={40} />
+                <Picker.Item label="70" value={70} />
+                <Picker.Item label="100" value={100} />
+                <Picker.Item label="140" value={140} />
+                <Picker.Item label="200" value={200} />
+              </Picker>
+            </View>
           </View>
-          <View style={styles.pickerContainer}>
-            <Text>Max Points</Text>
-            <Picker
-              style={{
-                height: 50,
-                width: 100,
-                opacity: this.state.pickerOpacity,
-              }}
-              selectedValue={this.state.maxPoints}
-              onValueChange={(itemValue) =>
-                this.setState({ maxPoints: itemValue })
-              }
-            >
-              <Picker.Item label="20" value={20} />
-              <Picker.Item label="40" value={40} />
-              <Picker.Item label="70" value={70} />
-              <Picker.Item label="100" value={100} />
-              <Picker.Item label="140" value={140} />
-              <Picker.Item label="200" value={200} />
-            </Picker>
-          </View>
+          <Button
+            color="#09A693"
+            title="Szukaj"
+            onPress={() => this.searchMagazines()}
+          />
         </View>
-        <Button color="#09A693" title="Szukaj" />
-      </View>
+      </ScrollView>
     );
   }
   searchMagazines = () => {
@@ -137,6 +153,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
+  pickerStyle: {
+    color: "#fff",
+  },
   button: {
     width: 100,
     height: 35,
@@ -145,4 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#09A693",
   },
 });
-export default FilterView;
+export default (props) => {
+  const { colors } = useTheme();
+  return <FilterView {...props} theme={colors} />;
+};

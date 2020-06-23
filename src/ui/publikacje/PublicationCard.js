@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
+import { useTheme } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {
@@ -29,14 +30,26 @@ const styles = StyleSheet.create({
 
 export default function PublicationCard({ magazine }) {
   //const { days, hours, minutes, seconds } = getCountdownParts(event.date);
-
+  const { colors } = useTheme();
   return (
     <TouchableOpacity onPress={() => magazine.onSelect(magazine.id)}>
       <View style={styles.container}>
-        <Text style={(styles.textStyle, styles.titleStyle)}>
+        <Text
+          style={{
+            ...styles.textStyle,
+            ...styles.titleStyle,
+            color: colors.text,
+          }}
+        >
           {magazine.title}
         </Text>
-        <Text style={(styles.textStyle, styles.pointsStyle)}>
+        <Text
+          style={{
+            ...styles.textStyle,
+            ...styles.pointsStyle,
+            color: colors.text,
+          }}
+        >
           {magazine.points}
         </Text>
       </View>
