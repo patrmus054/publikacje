@@ -8,12 +8,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingLeft: 11,
+
     paddingTop: 20,
     height: 59,
+  },
+  titleStyle: {
+    flex: 0.8,
+    textAlign: "left",
+  },
+  pointsStyle: {
+    flex: 0.3,
+    textAlign: "right",
     paddingRight: 11,
   },
   textStyle: {
     fontSize: 16,
+    justifyContent: "flex-end",
   },
 });
 
@@ -23,8 +33,12 @@ export default function PublicationCard({ magazine }) {
   return (
     <TouchableOpacity onPress={() => magazine.onSelect(magazine.id)}>
       <View style={styles.container}>
-        <Text style={styles.textStyle}>{magazine.title}</Text>
-        <Text style={styles.textStyle}>{magazine.points}</Text>
+        <Text style={(styles.textStyle, styles.titleStyle)}>
+          {magazine.title}
+        </Text>
+        <Text style={(styles.textStyle, styles.pointsStyle)}>
+          {magazine.points}
+        </Text>
       </View>
     </TouchableOpacity>
   );

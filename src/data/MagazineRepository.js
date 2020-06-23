@@ -3,7 +3,7 @@ import instance from "./client";
 const limit = 10;
 
 export async function getMagazines(
-  page = 1,
+  page,
   title = undefined,
   minPoints = undefined,
   maxPoints = undefined
