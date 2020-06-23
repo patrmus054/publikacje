@@ -27,24 +27,36 @@ class DetailsForm extends Component {
         <ActivityIndicator size="large" />
       </View>
     ) : (
-      <View>
-        <ScrollView>
-          <Text>Title 1</Text>
-          <Text>{this.state.magazine.Title1}</Text>
-          <Text>Title 2</Text>
-          <Text>{this.state.magazine.Title2}</Text>
-          <Text>ISSN</Text>
-          <Text>{this.state.magazine.issn}</Text>
-          <Text>E-ISSN</Text>
-          <Text>{this.state.magazine.e_issn}</Text>
-          <Text>ISSN 2</Text>
-          <Text>{this.state.magazine.issn2}</Text>
-          <Text>E-ISSN 2</Text>
-          <Text>{this.state.magazine.e_issn2}</Text>
-          <Text>Categories</Text>
-          <Text>{this.state.magazine.Categories.join(",")}</Text>
-        </ScrollView>
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.headerText}>Title 1</Text>
+          <Text style={styles.descriptionText}>
+            {this.state.magazine.Title1}
+          </Text>
+          <Text style={styles.headerText}>Title 2</Text>
+          <Text style={styles.descriptionText}>
+            {this.state.magazine.Title2}
+          </Text>
+          <Text style={styles.headerText}>ISSN</Text>
+          <Text style={styles.descriptionText}>{this.state.magazine.issn}</Text>
+          <Text style={styles.headerText}>E-ISSN</Text>
+          <Text style={styles.descriptionText}>
+            {this.state.magazine.e_issn}
+          </Text>
+          <Text style={styles.headerText}>ISSN 2</Text>
+          <Text style={styles.descriptionText}>
+            {this.state.magazine.issn2}
+          </Text>
+          <Text style={styles.headerText}>E-ISSN 2</Text>
+          <Text style={styles.descriptionText}>
+            {this.state.magazine.e_issn2}
+          </Text>
+          <Text style={styles.headerText}>Categories</Text>
+          <Text style={styles.descriptionText}>
+            {this.state.magazine.Categories.join(",")}
+          </Text>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -58,7 +70,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
-    marginLeft: 15,
+    paddingLeft: 15,
   },
   headerText: {
     fontSize: 18,
