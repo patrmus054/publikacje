@@ -15,18 +15,30 @@ const styles = StyleSheet.create({
 });
 
 class PublicationList extends Component {
-  state = {
-    currentPage: 1,
-    magazines: [],
-    isLoading: false,
-    hasNext: true,
-    title: this.props.route.params.title,
-    minPoints: this.props.route.params.minPoints,
-    maxPoints: this.props.route.params.maxPoints,
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: 1,
+      magazines: [],
+      isLoading: false,
+      hasNext: true,
+      title: props.route.params.title,
+      minPoints: props.route.params.minPoints,
+      maxPoints: props.route.params.maxPoints,
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      page: 1,
+      magazines: [],
+      title: nextProps.route.params.title,
+      minPoints: nextProps.route.params.minPoints,
+      maxPoints: nextProps.route.params.maxPoints,
+    });
+    this.handleLoadMore();
+  }
   async componentDidMount() {
-    this.setState({ isLoading: true }, this.fetchMagazines);
+    this.setState({ isLoading: true, magazines: [] }, this.fetchMagazines);
   }
 
   async fetchMagazines() {

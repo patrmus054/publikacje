@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 //import { Picker } from "@react-native-community/picker";
+import { Platform } from "react-native";
 import { Picker } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 class FilterView extends Component {
   constructor(props) {
     super(props);
@@ -9,22 +11,69 @@ class FilterView extends Component {
       title: "",
       minPoints: 0,
       maxPoints: 200,
+      pickerOpacity: 0,
+      opacityOfOtherItems: 1,
     };
   }
-  componentDidMount() {}
+  checkIfIOS() {
+    if (Platform.OS === "ios") {
+      return (
+        <Button
+          buttonStyle={{
+            backgroundColor: "#D1D1D1",
+            opacity: this.state.opacityOfOtherItems,
+          }}
+          onPress={this.toggle()}
+          color="#101010"
+          title={this.state.label}
+          onPress={this.changeOpacity}
+        />
+      );
+    } else if (Platform.OS === "android") {
+      this.setState({
+        pickerOpacity: 1, //set picker opacity:1 -> picker is visible.
+      });
+    }
+  }
+
+  toggle() {
+    if (Platform.OS === "ios") {
+      if (this.state.pickerOpacity == 0) {
+        this.setState({
+          pickerOpacity: 1,
+          opacityOfOtherItems: 0, // THIS WILL HIDE YOUR BUTTON!
+        });
+      } else {
+        this.setState({
+          pickerOpacity: 0,
+          opacityOfOtherItems: 1,
+        });
+      }
+    }
+  }
+  componentDidMount() {
+    this.checkIfIOS();
+  }
   render() {
     return (
       <View style={styles.container}>
         <TextInput
           placeholder="Podaj tytuł czasopisma"
           value={this.state.title}
+          style={{ height: 50, width: 300 }}
           onChangeText={(text) => this.setState({ title: text })}
+          underlineColorAndroid="#000"
         />
         <View>
           <View style={styles.pickerContainer}>
             <Text>Min Points</Text>
+
             <Picker
-              style={{ height: 50, width: 100 }}
+              style={{
+                height: 50,
+                width: 100,
+                opacity: this.state.pickerOpacity,
+              }}
               selectedValue={this.state.minPoints}
               onValueChange={(itemValue) =>
                 this.setState({ minPoints: itemValue })
@@ -42,7 +91,11 @@ class FilterView extends Component {
           <View style={styles.pickerContainer}>
             <Text>Max Points</Text>
             <Picker
-              style={{ height: 50, width: 100 }}
+              style={{
+                height: 50,
+                width: 100,
+                opacity: this.state.pickerOpacity,
+              }}
               selectedValue={this.state.maxPoints}
               onValueChange={(itemValue) =>
                 this.setState({ maxPoints: itemValue })
@@ -57,11 +110,7 @@ class FilterView extends Component {
             </Picker>
           </View>
         </View>
-        <Button
-          title="Szukaj"
-          onPress={() => this.searchMagazines()}
-          style={styles.button}
-        />
+        <Button color="#09A693" title="Szukaj" />
       </View>
     );
   }
@@ -79,15 +128,21 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 20,
   },
   pickerContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
   button: {
-    borderRadius: 10,
+    width: 100,
+    height: 35,
+
+    borderRadius: 20,
+    backgroundColor: "#09A693",
   },
 });
 export default FilterView;
