@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 //import { Picker } from "@react-native-community/picker";
+import { Platform } from "react-native";
 import { Picker } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 class FilterView extends Component {
@@ -10,9 +11,49 @@ class FilterView extends Component {
       title: "",
       minPoints: 0,
       maxPoints: 200,
+      pickerOpacity: 0,
+      opacityOfOtherItems: 1,
     };
   }
-  componentDidMount() {}
+  checkIfIOS() {
+    if (Platform.OS === "ios") {
+      return (
+        <Button
+          buttonStyle={{
+            backgroundColor: "#D1D1D1",
+            opacity: this.state.opacityOfOtherItems,
+          }}
+          onPress={this.toggle()}
+          color="#101010"
+          title={this.state.label}
+          onPress={this.changeOpacity}
+        />
+      );
+    } else if (Platform.OS === "android") {
+      this.setState({
+        pickerOpacity: 1, //set picker opacity:1 -> picker is visible.
+      });
+    }
+  }
+
+  toggle() {
+    if (Platform.OS === "ios") {
+      if (this.state.pickerOpacity == 0) {
+        this.setState({
+          pickerOpacity: 1,
+          opacityOfOtherItems: 0, // THIS WILL HIDE YOUR BUTTON!
+        });
+      } else {
+        this.setState({
+          pickerOpacity: 0,
+          opacityOfOtherItems: 1,
+        });
+      }
+    }
+  }
+  componentDidMount() {
+    this.checkIfIOS();
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -26,8 +67,13 @@ class FilterView extends Component {
         <View>
           <View style={styles.pickerContainer}>
             <Text>Min Points</Text>
+
             <Picker
-              style={{ height: 50, width: 100 }}
+              style={{
+                height: 50,
+                width: 100,
+                opacity: this.state.pickerOpacity,
+              }}
               selectedValue={this.state.minPoints}
               onValueChange={(itemValue) =>
                 this.setState({ minPoints: itemValue })
@@ -45,7 +91,11 @@ class FilterView extends Component {
           <View style={styles.pickerContainer}>
             <Text>Max Points</Text>
             <Picker
-              style={{ height: 50, width: 100 }}
+              style={{
+                height: 50,
+                width: 100,
+                opacity: this.state.pickerOpacity,
+              }}
               selectedValue={this.state.maxPoints}
               onValueChange={(itemValue) =>
                 this.setState({ maxPoints: itemValue })
