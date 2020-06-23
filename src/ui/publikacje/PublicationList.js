@@ -41,8 +41,10 @@ class PublicationList extends Component {
     }
   }
 
-  handleAddEvent = () => {
-    this.props.navigation.navigate("Details");
+  handleAddEvent = (id) => {
+    this.props.navigation.navigate("Details", {
+      id: id,
+    });
   };
   handleLoadMore = () => {
     if (this.state.hasNext) {
@@ -71,7 +73,7 @@ class PublicationList extends Component {
       <FlatList
         data={this.state.magazines}
         style={styles.list}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, separators }) => (
           <PublicationCard
             magazine={{

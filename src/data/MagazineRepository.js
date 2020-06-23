@@ -62,31 +62,33 @@ function buildParams(params) {
 }
 
 export async function getMagazineById(id) {
-  const magazineResponse = await instance.get("/magazines", {
-    params: {
-      id,
-    },
-  });
-  const convertedMagazine = magazineResponse.data.magazines.map((item) => {
-    const points = item.Points.map((pointsItem) => {
+  try {
+    const magazineResponse = await instance.get(`/magazines/${id}`);
+
+    const receivedMagazine = magazineResponse.data;
+    const points = receivedMagazine.Points.map((pointsItem) => {
       const point = {
         Value: pointsItem.Value,
         _id: pointsItem._id,
         Year: pointsItem.Year,
       };
-
       return point;
     });
+
     const magazine = {
-      _id: item._id,
-      Title1: item.Title1,
-      Title2: item.Title2,
-      issn: item.issn,
-      e_isnn: item.e_issn,
-      Points: item.points,
-      issn2: item.issn2,
-      e_issn2: item.e_issn2,
+      _id: receivedMagazine._id,
+      Title1: receivedMagazine.Title1,
+      Title2: receivedMagazine.Title2,
+      issn: receivedMagazine.issn,
+      e_issn: receivedMagazine.e_issn,
+      Points: points,
+      Categories: receivedMagazine.Categories,
+      issn2: receivedMagazine.issn2,
+      e_issn2: receivedMagazine.e_issn2,
     };
-  });
-  return convertedMagazine;
+
+    return magazine;
+  } catch (error) {
+    console.error(error);
+  }
 }
