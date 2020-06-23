@@ -71,7 +71,7 @@ class PublicationList extends Component {
       <FlatList
         data={this.state.magazines}
         style={styles.list}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item, index) => index}
         renderItem={({ item, separators }) => (
           <PublicationCard
             magazine={{
